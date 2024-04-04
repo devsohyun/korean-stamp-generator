@@ -1,0 +1,25 @@
+.HJ한전서A {
+    font-family: 'HJ한전서A', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.HJ한전서B {
+    font-family: 'HJ한전서B', sans-serif;
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HJ한전서A';
+    src: url('/fonts/HJ한전서A.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'HJ한전서B';
+    src: url('/fonts/HJ한전서B.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
