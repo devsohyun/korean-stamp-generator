@@ -7,8 +7,6 @@ export const Sections = () => {
   const stampRef = useRef(null)
   const [nameText, setNameText] = useState('')
   const [stampText, setStampText] = useState('')
-  const [mainFontSize, setMainFontSize] = useState('')
-  const [optionsFontSize, setOptionsFontSize] = useState('')
   const [selectedIndex, setSelectedIndex] = useState(0)
   const stampStyleArr = [
     'stamp-style-red-text-white-bg',
@@ -16,6 +14,10 @@ export const Sections = () => {
     'stamp-style-red-text-white-bg-circle',
     'stamp-style-white-text-red-bg-circle',
   ]
+
+  const mainStampFontSizeArr = ['28rem', '15rem', '10rem']
+  const optionsSquareStampFontSizeArr = ['6.3rem', '3.2rem', '2.2rem']
+  const optionsCircleStampFontSizeArr = ['5.3rem', '2.8rem', '1.8rem']
 
   // Get translator api
   translate.engine = 'deepl'
@@ -27,19 +29,19 @@ export const Sections = () => {
   }
 
   const handleSubmitClick = () => {
-    if (/^[a-zA-Z\s]+$/.test(nameText)) {
-      // alphabet letters only
-      const fetchData = async () => {
-        // requst translate through api
-        const text = await translate(`name"${nameText}"`, 'ko') // sending string looks like: name"sohyun"
-        // extract only name
-        const matches = text.match(/"([^"]*)"/)
-        const extractedName = matches ? matches[1].replace(/\s/g, '') : null
-        // check name result
-        checkNameLength(extractedName)
-      }
-      fetchData()
+    // if (!/^[a-zA-Z\s]+$/.test(nameText)) return
+
+    // alphabet letters only
+    const fetchData = async () => {
+      // requst translate through api
+      const text = await translate(`name"${nameText}"`, 'ko') // sending string looks like: name"sohyun"
+      // extract only name
+      const matches = text.match(/"([^"]*)"/)
+      const extractedName = matches ? matches[1].replace(/\s/g, '') : null
+      // check name result
+      checkNameLength(extractedName)
     }
+    fetchData()
   }
 
   // Manage results
@@ -86,29 +88,18 @@ export const Sections = () => {
     }
     // set main stamp font size
     if (_text.length == 1) {
-      setMainFontSize('28rem')
+      setMainSquareFontSize('28rem')
+      setMainCircleFontSize('22rem')
     } else if (_text.length >= 3 && _text.length <= 4) {
-      setMainFontSize('15rem')
+      setMainSquareFontSize('15rem')
+      setMainCircleFontSize('11.5rem')
     } else if (_text.length > 4) {
-      setMainFontSize('10rem')
-    }
-
-    // set options stamp font size
-    if (_text.length == 1) {
-      setOptionsFontSize('6.3rem')
-    } else if (_text.length >= 3 && _text.length <= 4) {
-      setOptionsFontSize('3.2rem')
-    } else if (_text.length > 4) {
-      setOptionsFontSize('2.2rem')
+      setMainSquareFontSize('10rem')
     }
 
     // set text
     setStampText(_text)
   }
-
-  useEffect(() => {
-    console.log('Re-render for safety')
-  }, [optionsFontSize])
 
   return (
     <div className='sections'>
@@ -127,7 +118,17 @@ export const Sections = () => {
         <div ref={stampRef} className='stamps'>
           {/* <img className='stamp-texture' src='/images/stamp-texture.png'></img> */}
           <div className={`overlay ${stampStyleArr[selectedIndex]}`}>
-            <p id='result-text' style={{ fontSize: mainFontSize }}>
+            <p
+              id='result-text'
+              style={{
+                fontSize:
+                  stampText.length == 1
+                    ? mainStampFontSizeArr[0]
+                    : stampText.length >= 2 && stampText.length <= 4
+                    ? mainStampFontSizeArr[1]
+                    : mainStampFontSizeArr[2],
+              }}
+            >
               {stampText}
             </p>
           </div>
@@ -139,7 +140,23 @@ export const Sections = () => {
               className={className}
               onClick={() => handleSelectClick(index)}
             >
-              <p id={`result-text-${index}`} style={{ fontSize: optionsFontSize }}>
+              <p
+                id={`result-text-${index}`}
+                style={{
+                  fontSize:
+                    stampText.length === 1 && index <= 1
+                      ? optionsSquareStampFontSizeArr[0]
+                      : stampText.length >= 2 && stampText.length <= 4 && index <= 1
+                      ? optionsSquareStampFontSizeArr[1]
+                      : index <= 1
+                      ? optionsSquareStampFontSizeArr[2]
+                      : stampText.length === 1 && index > 1
+                      ? optionsCircleStampFontSizeArr[0]
+                      : stampText.length >= 2 && stampText.length <= 4 && index > 1
+                      ? optionsCircleStampFontSizeArr[1]
+                      : optionsCircleStampFontSizeArr[2],
+                }}
+              >
                 {stampText}
               </p>
             </div>

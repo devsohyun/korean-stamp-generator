@@ -46,16 +46,12 @@
                 justify-content: center;
                 top: 0;
                 left: 0%;
-                width: 98%;
-                height: 98%;
+                width: 97%;
+                height: 97%;
                 @extend .HJ한전서B;
                 text-align: center;
                 line-height: normal;
-                border: 5px solid #d00909;
-
-                #result-text {
-                    // font-size: 5rem;
-                }
+                border: 8px solid #d00909;
             }
         }
 
